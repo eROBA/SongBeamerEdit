@@ -3,11 +3,45 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SongBeamerEdit"
+        xmlns:local="clr-namespace:SongBeamerEdit.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Name="mainWindow"
+        Title="Editor for Songs from Songbeamer" Height="400" Width="550">
+    <Window.Resources>
+        <ResourceDictionary>
+        <local:MainViewModel x:Key="vm"/>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <Button Content="Button" HorizontalAlignment="Left" Height="70" Margin="556,90,0,0" VerticalAlignment="Top" Width="119"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="_Datei">
+                <MenuItem Command="ApplicationCommands.Copy"/>
+                <MenuItem Command="ApplicationCommands.Cut"/>
+                <MenuItem Command="ApplicationCommands.Paste"/>
+            </MenuItem>
+            <MenuItem Header="_Bearbeiten" >
+                <MenuItem Header="_Bold" IsCheckable="True"/>
+                <MenuItem Header="_Italic" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="_Einstellungen">
+                <MenuItem Header="_Einstellungen"/>
+                <Separator/>
+                <MenuItem Header="I_ncrease Font Size"/>
+                <MenuItem Header="_Decrease Font Size"/>
+            </MenuItem>
+            <MenuItem Header="_Hilfe" HorizontalAlignment="Right" >
+                <MenuItem Header="_Hilfe"/>
+                </MenuItem>
+        </Menu>
     </Grid>
 </Window>
