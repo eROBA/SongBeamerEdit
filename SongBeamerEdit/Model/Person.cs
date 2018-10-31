@@ -1,6 +1,5 @@
 ﻿using System;
 
-//namespace MVVM_Sample.Model
 namespace SongBeamerEdit.Model
 {
     public class Person 
