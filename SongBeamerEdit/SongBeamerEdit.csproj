@@ -55,11 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\FocusControl.cs" />
+    <Compile Include="Model\Song.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\PDateTime.cs" />
-    <Compile Include="ViewModel\PersonViewModel.cs" />
-    <Compile Include="ViewModel\PString.cs" />
+    <Compile Include="ViewModel\SongViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +122,30 @@
     <Resource Include="Images\next_dis.png" />
     <Resource Include="Images\previous.png" />
     <Resource Include="Images\previous_dis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveFileDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OpenFileDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OpenFileDialog_dis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveFileDialog_dis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OpenFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveAs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Copy_6524.png" />
+    <Resource Include="Images\Cut_6523.png" />
+    <Resource Include="Images\Paste_6520.png" />
+    <Resource Include="Images\PrintDialog.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,10 +17,8 @@ namespace SongBeamerEdit
             vm = (MainViewModel)this.TryFindResource("vm");
             if (vm != null)
             {
-                this.CommandBindings.Add(vm.NewCommandBinding);
-                this.CommandBindings.Add(vm.DeleteCommandBinding);
                 this.CommandBindings.Add(vm.SaveCommandBinding);
-                this.CommandBindings.Add(vm.UndoCommandBinding);
+                this.CommandBindings.Add(vm.OpenCommandBinding);
             }
             this.Closing += MainWindow_Closing;
             vm.ConfirmDeleting += Vm_ConfirmDeleting;
@@ -40,7 +38,7 @@ namespace SongBeamerEdit
 
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            vm.CancelViewClosing();
+            //vm.CancelViewClosing();
         }
     }
 }

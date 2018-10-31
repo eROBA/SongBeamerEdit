@@ -6,32 +6,68 @@
         xmlns:local="clr-namespace:SongBeamerEdit.ViewModel"
         mc:Ignorable="d"
         Name="mainWindow"
-        Title="Editor for Songs from Songbeamer" Height="400" Width="550">
+        Title="SB Songeditor" Height="400" Width="550">
     <Window.Resources>
         <ResourceDictionary>
-        <local:MainViewModel x:Key="vm"/>
+            <local:MainViewModel x:Key="vm"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="24"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
-        <Menu>
+        <Menu Grid.ColumnSpan="3" >
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
                     <DockPanel HorizontalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
-            <MenuItem Header="_Datei">
-                <MenuItem Command="ApplicationCommands.Copy"/>
-                <MenuItem Command="ApplicationCommands.Cut"/>
-                <MenuItem Command="ApplicationCommands.Paste"/>
+            <MenuItem Header="_Datei" >
+                <MenuItem Command="ApplicationCommands.Open" >
+                    <MenuItem.Icon>
+                        <Image Source="Images/OpenFolder.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="ApplicationCommands.Save" >
+                    <MenuItem.Icon>
+                        <Image Source="Images\SaveFileDialog.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="ApplicationCommands.SaveAs">
+                    <MenuItem.Icon>
+                        <Image Source="Images\SaveAs.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Command="ApplicationCommands.Print">
+                    <MenuItem.Icon>
+                        <Image Source="Images/PrintDialog.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Bearbeiten" >
-                <MenuItem Header="_Bold" IsCheckable="True"/>
-                <MenuItem Header="_Italic" IsCheckable="True"/>
+            <MenuItem Header="_Bearbeiten">
+                <MenuItem Command="ApplicationCommands.Copy" >
+                    <MenuItem.Icon>
+                        <Image Source="Images/Copy_6524.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="ApplicationCommands.Cut">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Cut_6523.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="ApplicationCommands.Paste">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Paste_6520.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Einstellungen">
                 <MenuItem Header="_Einstellungen"/>
@@ -41,7 +77,21 @@
             </MenuItem>
             <MenuItem Header="_Hilfe" HorizontalAlignment="Right" >
                 <MenuItem Header="_Hilfe"/>
-                </MenuItem>
+            </MenuItem>
         </Menu>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="1" Grid.RowSpan="2" />
+        <TextBox x:Name="DateiText" Grid.Row="1" TextWrapping="Wrap" Text= "{Binding Source={StaticResource vm}, Path=FileText, Mode=TwoWay}" AcceptsReturn="True"/>
+        <TabControl Grid.Column="2" Grid.Row="1">
+            <TabItem Header="Song">
+                <Grid Background="#FFE5E5E5">
+                    <TextBlock TextWrapping="Wrap" Text="Textblock Lied"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Folien">
+                <Grid Background="#FFE5E5E5">
+                    <TextBlock TextWrapping="Wrap" Text="Textblock einzelner Folien"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
