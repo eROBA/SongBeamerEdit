@@ -1,6 +1,7 @@
 ﻿using SongBeamerEdit.ViewModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SongBeamerEdit
 {
@@ -9,36 +10,22 @@ namespace SongBeamerEdit
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainViewModel vm;
-
+        MainViewModel mvm;
         public MainWindow()
         {
             InitializeComponent();
-            vm = (MainViewModel)this.TryFindResource("vm");
-            if (vm != null)
+            mvm = (MainViewModel)this.TryFindResource("mvm");
+            if (mvm != null)
             {
-                this.CommandBindings.Add(vm.SaveCommandBinding);
-                this.CommandBindings.Add(vm.OpenCommandBinding);
+                this.CommandBindings.Add(mvm.SaveCommandBinding);
+                this.CommandBindings.Add(mvm.OpenCommandBinding);
             }
-            this.Closing += MainWindow_Closing;
-            vm.ConfirmDeleting += Vm_ConfirmDeleting;
         }
 
-        private void Vm_ConfirmDeleting(object sender, CancelEventArgs e)
+        private void DateiText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string message = "Wollen Sie wirklich löschen?";
-            string caption = "MVVM_Sample";
-            if (MessageBoxResult.Yes == MessageBox.Show(message, caption, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No))
-            {
-                e.Cancel = false;
-                return;
-            }
-            e.Cancel = true;
-        }
-
-        void MainWindow_Closing(object sender, CancelEventArgs e)
-        {
-            //vm.CancelViewClosing();
+            var _text = sender as TextBox;
+            SongViewModel.SVM.Erkennen(_text.Text);
         }
     }
 }

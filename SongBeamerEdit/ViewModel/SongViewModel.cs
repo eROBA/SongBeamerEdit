@@ -1,38 +1,43 @@
-﻿using SongBeamerEdit.Model;
-using System.ComponentModel;
+﻿using SongBeamerEdit.Converting;
 
 namespace SongBeamerEdit.ViewModel
 {
     class SongViewModel: ViewModelBase
     {
-        #region "Private Felder"
-        private Song _song;
-        private string _songFileText = string.Empty;
+        #region Private Felder
+        private string _editText = string.Empty;
+        private string _pageText = string.Empty;
+        private static SongViewModel _svm;
+        private SongEdit edit = new SongEdit();
         #endregion
 
-        #region "Konstruktor"
-        public SongViewModel(Song song)
+        #region Konstruktor
+        public SongViewModel()
         {
-            if (song != null)
-            {
-                _song = song;
-            }
-            else
-            {
-                _song = new Song();
-            }
+            if (_svm == null) _svm = this;
         }
         #endregion
-
-        #region "Öffentliche Eigenschaften"
-        //public string FileText
-        //{
-        //    get { return _songFileText; }
-        //    set
-        //    {
-        //        _songFileText = value;
-        //    }
-        //}
+        #region Methoden
+        public void Erkennen(string songText)
+        {
+            EditText = edit.ConvertToVMFormat(songText);
+        }
+        #endregion
+        #region Öffentliche Eigenschaften
+        public string EditText
+        {
+            get { return _editText; }
+            set { SetProperty<string>(ref _editText, value); }
+        }
+        public string PageText
+        {
+            get { return _pageText; }
+            set { SetProperty<string>(ref _pageText, value); }
+        }
+        public static SongViewModel SVM     //Hält die SongViewModel Instanz welche beim Programmstart mit dem Aufruf von "InitializeComponent()" im MainWindow erzeugt wird.
+        {
+            get { return _svm; }
+        }
         #endregion
 
     }

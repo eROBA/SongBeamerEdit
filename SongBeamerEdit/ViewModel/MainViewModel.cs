@@ -16,49 +16,24 @@ namespace SongBeamerEdit.ViewModel
     public class MainViewModel : ViewModelBase
     {
         #region Private Felder
-        private Song song = new Song();
         private string _fileText = String.Empty;
+        private string _editText = String.Empty;
+        private string _pageText = String.Empty;
         private CommandBinding _saveCommandBinding;
         private CommandBinding _openCommandBinding;
+        private static MainViewModel _mvm;
         #endregion
 
         #region Konstruktor
         public MainViewModel()
         {
+            if (_mvm == null) _mvm = this;
             // Commands initialisieren
             FirstCommand = new RelayCommand(FirstExecute, BackCanExecute);
 
             // CommandBindings erzeugen
             _saveCommandBinding = new CommandBinding(ApplicationCommands.Save, SaveExecuted, SaveCanExecute);
             _openCommandBinding = new CommandBinding(ApplicationCommands.Open, OpenExecuted, OpenCanExecute);
-        }
-        #endregion
-        #region Ereignisse
-        public event CancelEventHandler ConfirmDeleting;
-        public void OnConfirmDeleting(CancelEventArgs e)
-        {
-            if (ConfirmDeleting != null)
-                ConfirmDeleting(this, e);
-            else
-                throw new Exception("Das Löschen muss bestätigt werden.");
-        }
-        #endregion
-
-        #region Eigenschaften
-        public string FileText
-        {
-            get { return _fileText; }
-            set { SetProperty<string>(ref _fileText, value);
-            }
-        }
-        public ICommand FirstCommand { get; private set; }
-        public CommandBinding SaveCommandBinding
-        {
-            get { return _saveCommandBinding; }
-        }
-        public CommandBinding OpenCommandBinding
-        {
-            get { return _openCommandBinding; }
         }
         #endregion
 
@@ -93,7 +68,8 @@ namespace SongBeamerEdit.ViewModel
             else
             {
                 FileText = LoadSong(Properties.Settings.Default.LoadDefoldPath);
-            }            
+            }
+            SongViewModel.SVM.Erkennen(FileText);
         }
         #endregion
 
@@ -118,13 +94,39 @@ namespace SongBeamerEdit.ViewModel
             Nullable<bool> dialogOK = fileDialog.ShowDialog();
             if (dialogOK == true)
             {
-                string filetext = File.ReadAllText(fileDialog.FileName, Encoding.Default);
-                return filetext;
+                Properties.Settings.Default.LoadLastPath = Path.GetDirectoryName(fileDialog.FileName);
+                return File.ReadAllText(fileDialog.FileName, Encoding.Default);
             }
             else
             {
                 return string.Empty;
             }
+        }
+        #endregion
+
+        #region Eigenschaften
+        public string FileText
+        {
+            get { return _fileText; }
+            set
+            {
+                SetProperty<string>(ref _fileText, value);
+                _fileText = value;
+            }
+        }
+        public static MainViewModel MVM     //Hält die MainViewModel Instanz welche beim Programmstart mit dem Aufruf von "InitializeComponent()" im MainWindow erzeugt wird.
+        {
+            get { return _mvm; }
+        }
+
+        public ICommand FirstCommand { get; private set; }
+        public CommandBinding SaveCommandBinding
+        {
+            get { return _saveCommandBinding; }
+        }
+        public CommandBinding OpenCommandBinding
+        {
+            get { return _openCommandBinding; }
         }
         #endregion
     }

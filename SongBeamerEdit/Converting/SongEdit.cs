@@ -5,25 +5,24 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SongBeamerEdit
+namespace SongBeamerEdit.Converting
 {
-    public class ConvertSong
+    public class SongEdit
     {
-
         #region Felder
         string vorspann = string.Empty;         //Text vor dem eigendlichen Liedtext
         string myText = string.Empty;           //Arbeitsvariable für den Songtext
         MatchEvaluatorManager myMatchEvaluatorManager = new MatchEvaluatorManager();                                //Erstellt ein Objekt in welchem die Matchevaluatoren aufgerufen werden
         #endregion
         #region Konstruktoren
-        public ConvertSong() { }
-        public ConvertSong(string text)
+        public SongEdit() { }
+        public SongEdit(string text)
         {
-            Erkennen(text);
+            ConvertToVMFormat(text);
         }
         #endregion
         #region Hilfmethoden
-        public void Erkennen(string text)
+        public string ConvertToVMFormat(string text)
         {
             #region Songanalyse, Bereinigungen und Abtrennung Vorspann
             myText = text;                                                                                          //Übertragung vom übergebenen Text in das Feld der Arbeitsvariable
@@ -65,6 +64,7 @@ namespace SongBeamerEdit
                 myMatchEvaluatorManager.EditGroupNr = 2;                                            //Übergibt die Regex-Gruppennummer in der der Verstext zu finden ist
                 Ergebnis = vorspann + MehrereVerseOhneVers(rgx3);                                   //Führt den Vorspann und das Ergebnis der Konvertierung zusammen und legt diese in der Eigenschaft Ergebis ab
             }
+            return Ergebnis;
             #endregion
         }
         private string MehrereVerseOhneVers(Regex rgx)

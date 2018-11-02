@@ -55,8 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converter\MatchEvaluatorManager.cs" />
-    <Compile Include="Converter\Convert.cs" />
+    <Compile Include="Converting\MatchEvaluatorManager.cs" />
+    <Compile Include="Converting\SongEdit.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />

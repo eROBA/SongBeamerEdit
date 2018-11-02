@@ -9,7 +9,8 @@
         Title="SB Songeditor" Height="400" Width="550">
     <Window.Resources>
         <ResourceDictionary>
-            <local:MainViewModel x:Key="vm"/>
+            <local:MainViewModel x:Key="mvm"/>
+            <local:SongViewModel x:Key="svm"/>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -80,16 +81,16 @@
             </MenuItem>
         </Menu>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="1" Grid.RowSpan="2" />
-        <TextBox x:Name="DateiText" Grid.Row="1" TextWrapping="Wrap" Text= "{Binding Source={StaticResource vm}, Path=FileText, Mode=TwoWay}" AcceptsReturn="True"/>
+        <TextBox x:Name="DateiText" Grid.Row="1" TextWrapping="Wrap" Text= "{Binding Source={StaticResource mvm}, Path=FileText, Mode=TwoWay}" AcceptsReturn="True" TextChanged="DateiText_TextChanged"/>
         <TabControl Grid.Column="2" Grid.Row="1">
             <TabItem Header="Song">
                 <Grid Background="#FFE5E5E5">
-                    <TextBlock TextWrapping="Wrap" Text="Textblock Lied"/>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=EditText}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Folien">
                 <Grid Background="#FFE5E5E5">
-                    <TextBlock TextWrapping="Wrap" Text="Textblock einzelner Folien"/>
+                    <TextBlock TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=PageText}"/>
                 </Grid>
             </TabItem>
         </TabControl>
