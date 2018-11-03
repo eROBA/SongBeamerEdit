@@ -18,6 +18,7 @@ namespace SongBeamerEdit
             if (mvm != null)
             {
                 this.CommandBindings.Add(mvm.SaveCommandBinding);
+                this.CommandBindings.Add(mvm.SaveAsCommandBinding);
                 this.CommandBindings.Add(mvm.OpenCommandBinding);
             }
         }
@@ -26,6 +27,7 @@ namespace SongBeamerEdit
         {
             var _text = sender as TextBox;
             SongViewModel.SVM.Erkennen(_text.Text);
-        }
+            SongViewModel.SVM.IsChanged = true;
     }
+}
 }

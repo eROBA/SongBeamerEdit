@@ -34,6 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -148,6 +154,12 @@
     <Resource Include="Images\Cut_6523.png" />
     <Resource Include="Images\Paste_6520.png" />
     <Resource Include="Images\PrintDialog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LogoVM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LogoVM.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

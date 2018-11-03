@@ -7,10 +7,11 @@ namespace SongBeamerEdit.ViewModel
         #region Private Felder
         private string _editText = string.Empty;
         private string _pageText = string.Empty;
+        private string _origFileName;
+        private bool _isChanged;
         private static SongViewModel _svm;
         private SongEdit edit = new SongEdit();
         #endregion
-
         #region Konstruktor
         public SongViewModel()
         {
@@ -34,6 +35,18 @@ namespace SongBeamerEdit.ViewModel
             get { return _pageText; }
             set { SetProperty<string>(ref _pageText, value); }
         }
+        public string OrigFileName
+        {
+            get { return _origFileName; }
+            set { _origFileName = value; }
+        }
+        public bool IsChanged
+        {
+            get { return _isChanged; }
+            set { _isChanged = value; }
+        }
+
+
         public static SongViewModel SVM     //Hält die SongViewModel Instanz welche beim Programmstart mit dem Aufruf von "InitializeComponent()" im MainWindow erzeugt wird.
         {
             get { return _svm; }

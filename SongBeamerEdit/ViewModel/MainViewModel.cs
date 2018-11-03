@@ -20,6 +20,7 @@ namespace SongBeamerEdit.ViewModel
         private string _editText = String.Empty;
         private string _pageText = String.Empty;
         private CommandBinding _saveCommandBinding;
+        private CommandBinding _saveAsCommandBinding;
         private CommandBinding _openCommandBinding;
         private static MainViewModel _mvm;
         #endregion
@@ -33,6 +34,7 @@ namespace SongBeamerEdit.ViewModel
 
             // CommandBindings erzeugen
             _saveCommandBinding = new CommandBinding(ApplicationCommands.Save, SaveExecuted, SaveCanExecute);
+            _saveAsCommandBinding = new CommandBinding(ApplicationCommands.SaveAs, SaveAsExecuted, SaveAsCanExecute);
             _openCommandBinding = new CommandBinding(ApplicationCommands.Open, OpenExecuted, OpenCanExecute);
         }
         #endregion
@@ -40,20 +42,26 @@ namespace SongBeamerEdit.ViewModel
         #region Methoden der CommandBindings
         private void SaveCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            if(true)
+            if(SongViewModel.SVM.IsChanged == true)
             {
                 e.CanExecute = true;
-                return;
             }
             else
             {
-                    e.CanExecute = false;
-                    return;
+                e.CanExecute = false;
             } 
         }
         private void SaveExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            //Code für Save Vorgang
+            SaveSong();
+        }
+        private void SaveAsCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = SongViewModel.SVM.IsChanged ? true : false;
+        }
+        private void SaveAsExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveAsSong();
         }
         private void OpenCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -69,7 +77,9 @@ namespace SongBeamerEdit.ViewModel
             {
                 FileText = LoadSong(Properties.Settings.Default.LoadDefoldPath);
             }
-            SongViewModel.SVM.Erkennen(FileText);
+            SongViewModel.SVM.Erkennen(FileText); 
+            SongViewModel.SVM.IsChanged = false;
+
         }
         #endregion
 
@@ -88,12 +98,13 @@ namespace SongBeamerEdit.ViewModel
         private string LoadSong(string path)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Songbeamer Files|*.sng";
+            fileDialog.Filter = "Songbeamer Dateien (*.sng)|*.sng|Alle Dateien|*.*";
             fileDialog.DefaultExt = ".sng";
             fileDialog.InitialDirectory = Directory.Exists(path) ? path : @"C:\";
             Nullable<bool> dialogOK = fileDialog.ShowDialog();
             if (dialogOK == true)
             {
+                SongViewModel.SVM.OrigFileName = Path.GetFileName(fileDialog.FileName);
                 Properties.Settings.Default.LoadLastPath = Path.GetDirectoryName(fileDialog.FileName);
                 return File.ReadAllText(fileDialog.FileName, Encoding.Default);
             }
@@ -101,6 +112,34 @@ namespace SongBeamerEdit.ViewModel
             {
                 return string.Empty;
             }
+        }
+        private void SaveSong()
+        {
+            //if (Directory.Exists(Properties.Settings.Default.LoadLastPath))
+            string path = Properties.Settings.Default.LoadLastPath + "\\" + SongViewModel.SVM.OrigFileName;
+            if (File.Exists(path))
+            {
+                MessageBoxResult result = MessageBox.Show(path + " ist bereits vorhanden.\nMöchten Sie das Elemet ersetzen?","Speichern",MessageBoxButton.YesNo,MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    File.WriteAllText(path, SongViewModel.SVM.EditText, Encoding.Default);
+                    SongViewModel.SVM.IsChanged = false;
+                }
+            }
+            else
+            {
+                SaveAsSong();
+            }
+        }
+        private void SaveAsSong()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Songbeamer Dateien (*.sng)|*.sng|Alle Dateien|*.*";
+            saveFileDialog.DefaultExt = ".sng";
+            saveFileDialog.FileName = SongViewModel.SVM.OrigFileName;
+            saveFileDialog.InitialDirectory = Properties.Settings.Default.LoadLastPath;
+            Nullable<bool> dialogOK = saveFileDialog.ShowDialog();
+            if (dialogOK == true) File.WriteAllText(saveFileDialog.FileName, FileText, Encoding.Default);
         }
         #endregion
 
@@ -118,8 +157,11 @@ namespace SongBeamerEdit.ViewModel
         {
             get { return _mvm; }
         }
-
         public ICommand FirstCommand { get; private set; }
+        public CommandBinding SaveAsCommandBinding
+        {
+            get { return _saveAsCommandBinding; }
+        }
         public CommandBinding SaveCommandBinding
         {
             get { return _saveCommandBinding; }

@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SongBeamerEdit.ViewModel"
         mc:Ignorable="d"
-        Name="mainWindow"
-        Title="SB Songeditor" Height="400" Width="550">
+        Name="mainWindow" Icon="LogoVM.ico"
+        Title="SB Songeditor" Height="500" Width="800" MinHeight="400" MinWidth="600">
     <Window.Resources>
         <ResourceDictionary>
             <local:MainViewModel x:Key="mvm"/>
             <local:SongViewModel x:Key="svm"/>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
+    <Border Padding="5">
+        <Grid Background="#FFF0F0F0">
+            <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="3"/>
             <ColumnDefinition Width="1*"/>
@@ -27,8 +28,8 @@
         <Menu Grid.ColumnSpan="3" >
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <DockPanel HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
+                        <DockPanel HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
             </Menu.ItemsPanel>
             <MenuItem Header="_Datei" >
                 <MenuItem Command="ApplicationCommands.Open" >
@@ -80,19 +81,16 @@
                 <MenuItem Header="_Hilfe"/>
             </MenuItem>
         </Menu>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="1" Grid.RowSpan="2" />
-        <TextBox x:Name="DateiText" Grid.Row="1" TextWrapping="Wrap" Text= "{Binding Source={StaticResource mvm}, Path=FileText, Mode=TwoWay}" AcceptsReturn="True" TextChanged="DateiText_TextChanged"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="2" />
+            <TextBox x:Name="DateiText" Grid.Row="1" TextWrapping="Wrap" Text= "{Binding Source={StaticResource mvm}, Path=FileText, Mode=TwoWay}" AcceptsReturn="True" TextChanged="DateiText_TextChanged" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
         <TabControl Grid.Column="2" Grid.Row="1">
             <TabItem Header="Song">
-                <Grid Background="#FFE5E5E5">
-                    <TextBlock TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=EditText}"/>
-                </Grid>
-            </TabItem>
+                    <TextBox x:Name="TBSong" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=EditText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+                </TabItem>
             <TabItem Header="Folien">
-                <Grid Background="#FFE5E5E5">
-                    <TextBlock TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=PageText}"/>
-                </Grid>
+                    <TextBox x:Name="TBFolien" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=PageText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
             </TabItem>
         </TabControl>
-    </Grid>
+        </Grid>
+    </Border>
 </Window>
