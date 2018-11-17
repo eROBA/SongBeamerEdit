@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace SongBeamerEdit
 {
-    /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         MainViewModel mvm;
@@ -20,14 +17,14 @@ namespace SongBeamerEdit
                 this.CommandBindings.Add(mvm.SaveCommandBinding);
                 this.CommandBindings.Add(mvm.SaveAsCommandBinding);
                 this.CommandBindings.Add(mvm.OpenCommandBinding);
+                this.CommandBindings.Add(mvm.PrintCommandBinding);
+                this.Closing += MainWindow_Closing;
             }
         }
-
-        private void DateiText_TextChanged(object sender, TextChangedEventArgs e)
+        void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            var _text = sender as TextBox;
-            SongViewModel.SVM.Erkennen(_text.Text);
-            SongViewModel.SVM.IsChanged = true;
+            mvm.CancelViewClosing();
+        }
+
     }
-}
 }
