@@ -205,7 +205,6 @@ namespace SongBeamerEdit.ViewModel
             set
             {
                 SetProperty<string>(ref _fileText, value);
-                //_fileText = value;
             }
         }
         public static MainViewModel MVM

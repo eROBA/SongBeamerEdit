@@ -1,6 +1,6 @@
-﻿using SongBeamerEdit.Converting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using SongBeamerEdit.Model;
 
 namespace SongBeamerEdit.ViewModel
 {
@@ -11,11 +11,16 @@ namespace SongBeamerEdit.ViewModel
         private string _pageText = string.Empty;
         private string _origFileName;
         private bool _isChanged;
+        private bool _isNotEmpty = false;
+        private bool _language1 = true;
+        private bool _language2 = true;
+        private bool _language3 = true;
+        private bool _language4 = true;
         private static SongViewModel _svm;
         private int _languageCount;
         private int _selectedNumberPagelines;
         private ObservableCollection<int> _numbersPageLine;
-        private SongEdit Song;
+        private Song Song;
 
         #endregion
         #region Konstruktor
@@ -27,14 +32,21 @@ namespace SongBeamerEdit.ViewModel
         #region Methoden
         public void InitSong(string songText)
         {
-            Song = new SongEdit(songText);
-            Song.ConvertToVMFormat(songText);
+            //short[] selLanguage;
+            //selLanguage[1] = 1;
+            Song = new Song(songText);
+            Language1 = (Song.LanguageCount >= 1)? true : false;
+            Language2 = (Song.LanguageCount >= 2)? true : false;
+            Language3 = (Song.LanguageCount >= 3)? true : false;
+            Language4 = (Song.LanguageCount >= 4)? true : false;
+            Song.SongAnalyse(songText);
+            IsNotEmpty = true;
         }
         public void SongEinteilen()
         {
-            NumbersPageLines = PageLines(Song.AnzahlSprachen);              //Berechent die möglichen Anzahl von Zeilenkombinationen für die Collection
+            NumbersPageLines = PageLines(Song.LanguageCount);               //Berechent die möglichen Anzahl von Zeilenkombinationen für die Collection
             Song.AnzahlZeilenProSeite = SelectedNumberPagelines;            //Setzt die Anzahl Zeilen die dargestellt wurden gemäß dem SeletedItem
-            EditText = Song.SeitenaufteilungSong(Song.AnzahlSprachen);      //Aufruf zum Aufteilen
+            EditText =  Song.Vorspann + Song.VerseList.ToString();
         }
         private ObservableCollection<int> PageLines(int anzahlSprachen)
         {
@@ -55,7 +67,6 @@ namespace SongBeamerEdit.ViewModel
             get { return _numbersPageLine; }
             set { SetProperty<ObservableCollection<int>>(ref _numbersPageLine, value); }
         }
-
         public int SelectedNumberPagelines
         {
             get { return _selectedNumberPagelines; }
@@ -85,6 +96,31 @@ namespace SongBeamerEdit.ViewModel
         {
             get { return _isChanged; }
             set { _isChanged = value; }
+        }
+        public bool IsNotEmpty
+        {
+            get { return _isNotEmpty; }
+            set { SetProperty<bool>(ref _isNotEmpty, value); }
+        }
+        public bool Language1
+        {
+            get { return _language1; }
+            set { SetProperty<bool>(ref _language1, value); }
+        }
+        public bool Language2
+        {
+            get { return _language2; }
+            set { SetProperty<bool>(ref _language2, value); }
+        }
+        public bool Language3
+        {
+            get { return _language3; }
+            set { SetProperty<bool>(ref _language3, value); }
+        }
+        public bool Language4
+        {
+            get { return _language4; }
+            set { SetProperty<bool>(ref _language4, value); }
         }
         public static SongViewModel SVM     //Hält die SongViewModel Instanz welche beim Programmstart mit dem Aufruf von "InitializeComponent()" im MainWindow erzeugt wird.
         {

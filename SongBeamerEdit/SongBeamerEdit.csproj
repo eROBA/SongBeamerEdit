@@ -64,9 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converting\MatchEvaluatorManager.cs" />
-    <Compile Include="Converting\SongEdit.cs" />
+    <Compile Include="Converting\Line.cs" />
+    <Compile Include="Converting\LineCollection.cs" />
     <Compile Include="Model\Song.cs" />
+    <Compile Include="Converting\VerseCollection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SongViewModel.cs" />
@@ -94,7 +95,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

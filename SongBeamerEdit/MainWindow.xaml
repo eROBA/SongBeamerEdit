@@ -7,11 +7,13 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Name="mainWindow" Icon="LogoVM.ico"
-        Title="SB Songeditor" Height="500" Width="800" MinHeight="400" MinWidth="600">
+        Title="SB Songeditor" Height="700" Width="1000" MinHeight="400" MinWidth="600">
+
     <Window.Resources>
         <ResourceDictionary>
             <local:MainViewModel x:Key="mvm"/>
             <local:SongViewModel x:Key="svm"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         </ResourceDictionary>
     </Window.Resources>
     <Border Padding="5">
@@ -110,17 +112,43 @@
                         <Run Text="{Binding Source={StaticResource svm}, Path=OrigFileName}"/>
                 </TextBlock>
             </StackPanel>
-            <StackPanel Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Orientation="Horizontal">
+             <StackPanel DataContext="{StaticResource svm}" Name="SongOptions" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Orientation="Horizontal" Visibility="{Binding IsNotEmpty, Converter={StaticResource BoolToVis}}" >
                 <TextBlock VerticalAlignment="Center">
                     <Run Text="Zeilen: "/>
                 </TextBlock>
-                <ComboBox DataContext="{StaticResource mvm}" Width="40" Name="ZeilenzahlMax" IsEditable="True" IsReadOnly="True" ItemsSource="{Binding Source={StaticResource svm}, Path=NumbersPageLines, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Source={StaticResource svm} , Path=SelectedNumberPagelines, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
+                <ComboBox DataContext="{StaticResource mvm}" Width="40" Name="ZeilenzahlMax" IsReadOnly="False" ItemsSource="{Binding Source={StaticResource svm}, Path=NumbersPageLines, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Source={StaticResource svm} , Path=SelectedNumberPagelines, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
                         <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
+                <TextBlock VerticalAlignment="Center" Visibility="{Binding Language1, Converter={StaticResource BoolToVis}}">
+                        <Run Text="Sprachen:"/>
+                </TextBlock>
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language1, Converter={StaticResource BoolToVis}}">
+                    <TextBlock>
+                        <Run Text="1"/>
+                    </TextBlock>
+                </CheckBox>
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language2, Converter={StaticResource BoolToVis}}">
+                    <TextBlock>
+                        <Run Text="2"/>
+                    </TextBlock>
+                </CheckBox>
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language3, Converter={StaticResource BoolToVis}}">
+                    <TextBlock>
+                        <Run Text="3"/>
+                    </TextBlock>
+                </CheckBox>
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language4, Converter={StaticResource BoolToVis}}">
+                    <TextBlock>
+                        <Run Text="4"/>
+                    </TextBlock>
+                </CheckBox>
+                <TextBlock VerticalAlignment="Center">
+                    <Run Text=" Test"/>
+                </TextBlock>
             </StackPanel>
         </Grid>
     </Border>
