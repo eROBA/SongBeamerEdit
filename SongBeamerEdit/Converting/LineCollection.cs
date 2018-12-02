@@ -6,16 +6,18 @@ namespace SongBeamerEdit.Converting
 {
     public class LineCollection
     {
+        public LineCollection() { }
         public LineCollection(string vers, string callSign)
         {
             short languageNr = 0;
             CallSign = callSign;
-            string[] versLines = Regex.Split(vers, @"\r\n");
-            foreach (string versLine in versLines)
+            string[] versLines = Regex.Split(vers, @"\r\n");    //Teilt einen Vers in Zeilen auf
+            //Fügt den Verszeilen die Sprachnummer hinzu
+            foreach (string versLine in versLines)              
             {
                 languageNr += 1;
                 Line line = new Line(versLine);
-                if (line.IsImplicit)
+                if (line.IsImplicit)                //Wenn der Vers keine Explizite Versangabe wie z.B. ##2 hat
                 {
                 line.LanguageNr = languageNr;
                 }

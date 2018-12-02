@@ -123,25 +123,25 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
-                <TextBlock VerticalAlignment="Center" Visibility="{Binding Language1, Converter={StaticResource BoolToVis}}">
+                <TextBlock VerticalAlignment="Center" Visibility="{Binding Languages[0], Converter={StaticResource BoolToVis}}">
                         <Run Text="Sprachen:"/>
                 </TextBlock>
-                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language1, Converter={StaticResource BoolToVis}}">
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Languages[0], Converter={StaticResource BoolToVis}}">
                     <TextBlock>
                         <Run Text="1"/>
                     </TextBlock>
                 </CheckBox>
-                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language2, Converter={StaticResource BoolToVis}}">
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Languages[1], Converter={StaticResource BoolToVis}}">
                     <TextBlock>
                         <Run Text="2"/>
                     </TextBlock>
                 </CheckBox>
-                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language3, Converter={StaticResource BoolToVis}}">
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Languages[2], Converter={StaticResource BoolToVis}}">
                     <TextBlock>
                         <Run Text="3"/>
                     </TextBlock>
                 </CheckBox>
-                <CheckBox VerticalAlignment="Center" Visibility="{Binding Language4, Converter={StaticResource BoolToVis}}">
+                <CheckBox VerticalAlignment="Center" Visibility="{Binding Languages[3], Converter={StaticResource BoolToVis}}">
                     <TextBlock>
                         <Run Text="4"/>
                     </TextBlock>

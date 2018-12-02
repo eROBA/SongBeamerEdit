@@ -4,6 +4,7 @@ namespace SongBeamerEdit.Converting
 {
     public class Line
     {
+        public Line() { }
         public Line(string lineText)
         {
             var match = Regex.Match(lineText, @"(##)?([1-4]\s*)?([^\n]*)");
@@ -11,7 +12,6 @@ namespace SongBeamerEdit.Converting
             if (LanguageNr == 0)
             {
                 IsImplicit = true;
-                LanguageNr = 1;
             }
             LineText = match.Groups[3].Value;
         }

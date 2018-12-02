@@ -12,10 +12,7 @@ namespace SongBeamerEdit.ViewModel
         private string _origFileName;
         private bool _isChanged;
         private bool _isNotEmpty = false;
-        private bool _language1 = true;
-        private bool _language2 = true;
-        private bool _language3 = true;
-        private bool _language4 = true;
+        private ObservableCollection<bool> _languages = new ObservableCollection<bool>{ true, true, true, true };
         private static SongViewModel _svm;
         private int _languageCount;
         private int _selectedNumberPagelines;
@@ -32,13 +29,12 @@ namespace SongBeamerEdit.ViewModel
         #region Methoden
         public void InitSong(string songText)
         {
-            //short[] selLanguage;
-            //selLanguage[1] = 1;
             Song = new Song(songText);
-            Language1 = (Song.LanguageCount >= 1)? true : false;
-            Language2 = (Song.LanguageCount >= 2)? true : false;
-            Language3 = (Song.LanguageCount >= 3)? true : false;
-            Language4 = (Song.LanguageCount >= 4)? true : false;
+            _languages[0] = (Song.SelectedLanguages & Language.Lang0) != 0;
+            _languages[1] = (Song.SelectedLanguages & Language.Lang1) != 0;
+            _languages[2] = (Song.SelectedLanguages & Language.Lang2) != 0;
+            _languages[3] = (Song.SelectedLanguages & Language.Lang3) != 0;
+            Languages = _languages;
             Song.SongAnalyse(songText);
             IsNotEmpty = true;
         }
@@ -102,25 +98,10 @@ namespace SongBeamerEdit.ViewModel
             get { return _isNotEmpty; }
             set { SetProperty<bool>(ref _isNotEmpty, value); }
         }
-        public bool Language1
+        public ObservableCollection<bool> Languages
         {
-            get { return _language1; }
-            set { SetProperty<bool>(ref _language1, value); }
-        }
-        public bool Language2
-        {
-            get { return _language2; }
-            set { SetProperty<bool>(ref _language2, value); }
-        }
-        public bool Language3
-        {
-            get { return _language3; }
-            set { SetProperty<bool>(ref _language3, value); }
-        }
-        public bool Language4
-        {
-            get { return _language4; }
-            set { SetProperty<bool>(ref _language4, value); }
+            get { return _languages; }
+            set { SetProperty<ObservableCollection<bool>>(ref _languages, value); }
         }
         public static SongViewModel SVM     //Hält die SongViewModel Instanz welche beim Programmstart mit dem Aufruf von "InitializeComponent()" im MainWindow erzeugt wird.
         {
