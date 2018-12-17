@@ -28,7 +28,7 @@ namespace SongBeamerEdit.Model
                 {
                     if (!line.IsImplicit)
                     {
-                        mySong += "##" + line.LanguageNr + " ";
+                        mySong += "##" + (ushort)line.BitwiseLanguageNr + " ";
                     }
                     mySong += line.LineText + "\r\n";
                 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using SongBeamerEdit.Model;
+using SongBeamerEdit.FlagsValueConverter;
+
 
 namespace SongBeamerEdit.Converting
 {
@@ -9,20 +11,22 @@ namespace SongBeamerEdit.Converting
         public LineCollection() { }
         public LineCollection(string vers, string callSign)
         {
-            short languageNr = 0;
             CallSign = callSign;
             string[] versLines = Regex.Split(vers, @"\r\n");    //Teilt einen Vers in Zeilen auf
+            Language[] LanguagesArray = {Language.Lang0, Language.Lang1, Language.Lang2, Language.Lang3};
+            int lngNr = 0;
             //Fügt den Verszeilen die Sprachnummer hinzu
             foreach (string versLine in versLines)              
             {
-                languageNr += 1;
                 Line line = new Line(versLine);
-                if (line.IsImplicit)                //Wenn der Vers keine Explizite Versangabe wie z.B. ##2 hat
+                if (line.BitwiseLanguageNr == Language.None)              //Wenn der Vers keine Explizite Versangabe wie z.B. ##2 hat
                 {
-                line.LanguageNr = languageNr;
+                    if (lngNr == Song.LanguageCount) lngNr = 0;         //Schleife über Anzahl der Sprachen
+                    line.LanguageNr = lngNr + 1;
+                    line.BitwiseLanguageNr = LanguagesArray[lngNr];
+                    lngNr++;                                            //
                 }
                 Lines.Add(line);
-                if (languageNr == Song.LanguageCount) languageNr = 0;                
             }
         }
         public List<Line> Lines { get; set; } = new List<Line>();

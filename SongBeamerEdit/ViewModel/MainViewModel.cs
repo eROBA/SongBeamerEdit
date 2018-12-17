@@ -39,6 +39,7 @@ namespace SongBeamerEdit.ViewModel
             _openCommandBinding = new CommandBinding(ApplicationCommands.Open, OpenExecuted, OpenCanExecute);
             _printCommandBinding = new CommandBinding(ApplicationCommands.Print, PrintExecuted, PrintCanExecute);
         }
+
         #endregion
 
         #region Methoden der CommandBindings
@@ -80,7 +81,7 @@ namespace SongBeamerEdit.ViewModel
                 loadedText = LoadSong(Properties.Settings.Default.LoadDefoldPath);
             }
             SongViewModel.SVM.InitSong(loadedText);
-            FileText = loadedText;
+            FileText = loadedText;                                                          //Der Text aus dem geladenen File wird an die Eigenschaft Filetext übergeben. Wird in der View angezeigt
             SongViewModel.SVM.IsChanged = false;
         }
         private void PrintCanExecute    (object sender, CanExecuteRoutedEventArgs e)
@@ -119,7 +120,6 @@ namespace SongBeamerEdit.ViewModel
         {
             SongViewModel.SVM.SongEinteilen();
         }
-
         #endregion
 
         #region Öffentliche Methoden
@@ -211,8 +211,10 @@ namespace SongBeamerEdit.ViewModel
         {
             get { return _mvm; }
         }
+
         public ICommand TextChangedCommand { get; private set; }
         public ICommand SelectionChangedCommand { get; private set; }
+        public ICommand CheckBoxChangedCommand { get; private set; }
         public CommandBinding SaveAsCommandBinding
         {
             get { return _saveAsCommandBinding; }
