@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SongBeamerEdit.Converting;
 using SongBeamerEdit.FlagsValueConverter;
 
 namespace SongBeamerEdit.Model
@@ -10,14 +10,13 @@ namespace SongBeamerEdit.Model
     {
         #region Felder
         private string _myText;                                         //Arbeitsvariable für den Songtext
-        private readonly ushort[] BinaryLanguages = {1, 3, 7, 15};      //Bitmaske für 1-4 Sprachen 
         #endregion
 
         #region Konstruktoren
         public Song() { }
         public Song(string songText)
         {
-            SongOrigText = songText;
+            OrigLoadedSongText = songText;
             SongAnalyse(songText);
             VerseList = new VerseCollection(_myText);
         }
@@ -28,10 +27,10 @@ namespace SongBeamerEdit.Model
         {
             _myText = songText;                                                                                         //Übertragung vom übergebenen Text in das Feld der Arbeitsvariable
             Vorspann = Regex.Match(_myText, @"(#.*?\r\n)+", RegexOptions.Singleline).ToString();                        //Ermittelt den Vorspann
-            LanguageCount = ushort.TryParse(Regex.Match(Vorspann, "(?<=LangCount=)[0-9]+").Value, out ushort J) ? J : 1;
+            LanguageCount = int.TryParse(Regex.Match(Vorspann, "(?<=LangCount=)[0-9]+").Value, out int J) ? J : 1;
             LanguageCount = (LanguageCount > 4) ? 4 : LanguageCount;
-            SelectedLanguages = (Language)BinaryLanguages[LanguageCount-1];
-           _myText = _myText.Substring(Vorspann.Length);                                                               //Nimmt den Vorspann aus der Arbeitsvariable
+            SelectedLanguages = (Language)(int)Math.Pow(2.0, LanguageCount)-1;
+            _myText = _myText.Substring(Vorspann.Length);                                                               //Nimmt den Vorspann aus der Arbeitsvariable
             _myText = Regex.Replace(_myText, @"(\r\n){2,}", "\r\n", RegexOptions.Multiline);                            //Nimmt mehrfache Zeilenumbrüche heraus
             _myText = Regex.Replace(_myText, @"[ ]{2,}", " ", RegexOptions.Singleline);                                 //Nimmt mehrfache Spaces heraus
             _myText = Regex.Replace(_myText, @"\r\n($)", "$1", RegexOptions.Singleline);                                //Nimmt am Ende vom Lied Zeilenumbrüche heraus
@@ -54,21 +53,31 @@ namespace SongBeamerEdit.Model
 
         public void GenerateMaxLineVersList(int maxLines)
         {
-            SelectedVerseListMaxLines.Verses =
-                (from verse in VerseList.Verses
-                select new LineCollection()
+            foreach (var verLineCollection in SelectedVerseList.Verses)
+            {
+                var maxLineCollection = new LineCollection();
+                int count = 0;
+                for (int i = 0; i < verLineCollection.Lines.Count; i++)
                 {
-                    CallSign = verse.CallSign,
-                    Lines = verse.Lines
-                }).ToList();
+                    maxLineCollection.Lines.Add(verLineCollection.Lines[i]);
+                    count++;
+                    if (count == maxLines )
+                    {
+                        if (verLineCollection.Lines.Count != i+1) maxLineCollection.Lines.Add(new Line{LineText = "--", IsImplicit = true});
+                        count = 0;
+                    }
+                }
+                maxLineCollection.CallSign = verLineCollection.CallSign;
+                SelectedVerseListMaxLines.Verses.Add(maxLineCollection);
+            }
         }
 
         #endregion
 
         #region Eigenschaften
-        public string SongOrigText { get; set; }
         public static Language SelectedLanguages { get; set; }
-        public static int LanguageCount { get; set; }
+        public static int LanguageCount { get; private set; }
+        public string OrigLoadedSongText { get; set; }
         public string Vorspann { get; set; }
         public int AnzahlZeilenProSeite { get; set; }
         public VerseCollection VerseList { get; set; } = new VerseCollection();

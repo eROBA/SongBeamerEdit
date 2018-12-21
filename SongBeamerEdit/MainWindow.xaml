@@ -146,7 +146,8 @@
                  
                 <TextBlock VerticalAlignment="Center">
                         <Run Text="      "/>
-                        <Run Text="{Binding LangProp}" />
+                        <Run Text="{Binding LangProp}"/>
+                        <Run Text="{Binding SelectedNumberPagelines}"/>
                 </TextBlock>
             </StackPanel>
         </Grid>

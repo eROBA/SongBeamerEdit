@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using SongBeamerEdit.FlagsValueConverter;
 using SongBeamerEdit.Model;
 
 namespace SongBeamerEdit.ViewModel
 {
-    class SongViewModel: ViewModelBase
+    public class SongViewModel: ViewModelBase
     {
         #region Private Felder
         private string _editText = string.Empty;
@@ -17,12 +19,11 @@ namespace SongBeamerEdit.ViewModel
         private bool _isNotEmpty = false;
         private ObservableCollection<bool> _languages = new ObservableCollection<bool>{ true, true, true, true };
         private static SongViewModel _svm;
-        private int _languageCount;
         private int _selectedNumberPagelines;
         private ObservableCollection<int> _numbersPageLine;
         private Song mySong;
-
         #endregion
+
         #region Konstruktor
         public SongViewModel()
         {
@@ -39,22 +40,35 @@ namespace SongBeamerEdit.ViewModel
         }
         public void SongEinteilen()
         {
-            NumbersPageLines = PageLines(Song.LanguageCount);                   //Berechnet die möglichen Anzahl von Zeilenkombinationen für die Collection
+            NumbersPageLines = PageLines();                                     //Berechnet die möglichen Anzahl von Zeilenkombinationen für die Collection
             mySong.AnzahlZeilenProSeite = SelectedNumberPagelines;              //Setzt die Anzahl Zeilen die dargestellt wurden gemäß dem SeletedItem
             EditText =  mySong.Vorspann + mySong.VerseList.ToString();
         }
-        private ObservableCollection<int> PageLines(int anzahlSprachen)
+        private ObservableCollection<int> PageLines()
         {
-            // Auswahlwerte für darzustellende Zeilenzahl
-            List<int> numberLineList = new List<int>();
-                for (int i = anzahlSprachen; i < 6; i = i + anzahlSprachen)
+            int anzahlSprachen = FlagCount(Song.SelectedLanguages);
+            ObservableCollection<int> numberLineList = new ObservableCollection<int>();
+            for (int i = anzahlSprachen; i < 10; i = i + anzahlSprachen)
             {
                 numberLineList.Add(i);
             }
-            var test = new ObservableCollection<int>(numberLineList);
-            return test;
+            return numberLineList;
+        }
+        public int FlagCount(Language enumValue)
+        {
+            var hasFlagAttribute = enumValue.GetType().GetCustomAttributes(typeof(FlagsAttribute), false).Length > 0;
+            if (!hasFlagAttribute) return 1;
+            var count = 0;
+            var value = Convert.ToInt16(enumValue);
+            while (value != 0)
+            {
+                if ((value & 1) == 1) count++;
+                value >>= 1;
+            }
+            return count;
         }
         #endregion
+
         #region Öffentliche Eigenschaften
         public ObservableCollection<int> NumbersPageLines                   //Auswahl möglicher Zeilenanzahlen in Abhänigkeit der gewählten Max Zeilenzahl
         {
@@ -81,12 +95,7 @@ namespace SongBeamerEdit.ViewModel
             get { return _origFileName; }
             set { _origFileName = value; }
         }
-        public int LanguageCount
-        {
-            get { return _languageCount; }
-            set { _languageCount = value; }
-        }
-        public Language LangProp                                            //Speichert die Bitmaske für die verfügbaren Sprachen
+        public Language LangProp                                            //Bitmaske für die verfügbaren Sprachen
         {
             get { return _langProp; }
             set
@@ -104,7 +113,7 @@ namespace SongBeamerEdit.ViewModel
             {
                 SetProperty<Language>(ref _langVisible, value);
             }
-        }
+        }                                      //Bitmaske für Anzeige der Checkboxen zur Auswahl der Sprachen
         public bool IsChanged
         {
             get { return _isChanged; }

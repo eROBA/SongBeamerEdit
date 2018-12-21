@@ -1,6 +1,4 @@
-﻿using SongBeamerEdit.Converting;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace SongBeamerEdit.Model
@@ -23,7 +21,10 @@ namespace SongBeamerEdit.Model
             foreach (var vers in Verses)
             {
                 mySong += "---\r\n";
-                if (vers.CallSign != string.Empty) mySong += vers.CallSign + "\r\n";
+                if (vers.CallSign != null)
+                {
+                    mySong += vers.CallSign + "\r\n";
+                }
                 foreach (var line in vers.Lines)
                 {
                     if (!line.IsImplicit)

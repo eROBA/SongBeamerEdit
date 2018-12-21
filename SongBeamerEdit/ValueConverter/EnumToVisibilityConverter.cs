@@ -7,12 +7,12 @@ namespace SongBeamerEdit.FlagsValueConverter
 {
     public class FlagsEnumToVisibilityConverter : IValueConverter
     {
-        private ushort targetValue;
+        private int targetValue;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            ushort mask = (ushort)parameter;
-            this.targetValue = (ushort)value;
+            int mask = (int)parameter;
+            this.targetValue = (int)value;
             var test = ((mask & this.targetValue) != 0) ? Visibility.Visible : Visibility.Hidden;
             return test;
         }

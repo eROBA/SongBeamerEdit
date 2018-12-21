@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace SongBeamerEdit.FlagsValueConverter
 {
     [Flags]
-    public enum Language : ushort
+    public enum Language : int
     {
-        None  = 0,
-        Lang0 = 1,      //1
-        Lang1 = 2,      //2
-        Lang2 = 4,      //3
-        Lang3 = 8,      //4
+        None  = 0,      //0000
+        Lang0 = 1,      //0001
+        Lang1 = 2,      //0010
+        Lang2 = 4,      //0100
+        Lang3 = 8,      //1000
     }
 }

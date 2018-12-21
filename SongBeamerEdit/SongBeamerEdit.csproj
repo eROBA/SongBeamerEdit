@@ -65,10 +65,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converting\Line.cs" />
-    <Compile Include="Converting\LineCollection.cs" />
+    <Compile Include="Model\Line.cs" />
+    <Compile Include="Model\LineCollection.cs" />
     <Compile Include="Model\Song.cs" />
-    <Compile Include="Converting\VerseCollection.cs" />
+    <Compile Include="Model\VerseCollection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ValueConverter\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverter\FlagsEnumValueConverter.cs" />
@@ -128,6 +128,7 @@
   <ItemGroup>
     <Folder Include="bin\Debug\" />
     <Folder Include="bin\Release\" />
+    <Folder Include="Converting\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\first.png" />
