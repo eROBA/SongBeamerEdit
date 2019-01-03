@@ -18,13 +18,14 @@ namespace SongBeamerEdit
                 this.CommandBindings.Add(mvm.SaveAsCommandBinding);
                 this.CommandBindings.Add(mvm.OpenCommandBinding);
                 this.CommandBindings.Add(mvm.PrintCommandBinding);
+                this.CommandBindings.Add(mvm.CloseCommandBinding);
                 this.Closing += MainWindow_Closing;
             }
         }
-        void MainWindow_Closing(object sender, CancelEventArgs e)
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
+            Properties.Settings.Default.Save();
             mvm.CancelViewClosing();
         }
-
     }
 }

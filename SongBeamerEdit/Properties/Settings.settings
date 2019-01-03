@@ -8,5 +8,11 @@
     <Setting Name="LoadLastPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">unbekannt</Value>
     </Setting>
+    <Setting Name="MaxDisplaySonglines" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="SaveEditedSongPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Z:\NORA\SongBeamer\VMVersion</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

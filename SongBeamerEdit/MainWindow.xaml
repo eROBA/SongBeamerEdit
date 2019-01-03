@@ -4,21 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SongBeamerEdit.ViewModel"
+        xmlns:a="clr-namespace:CH.Wpf.Controls;assembly=CH.Wpf.Controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:l="clr-namespace:SongBeamerEdit.FlagsValueConverter"
         mc:Ignorable="d"
-        Name="mainWindow" Icon="LogoVM.ico"
+        Name="mainWindow" Icon="LogoVM.ico" 
         Title="SB Songeditor" Height="700" Width="1000" MinHeight="400" MinWidth="600">
 
     <Window.Resources>
         <ResourceDictionary>
+            <Style x:Key="MySimpleScrollBar" TargetType="{x:Type ScrollBar}">
+                <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="MinHeight" Value="25"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Border BorderThickness="1" BorderBrush="Gray">
+                                <Grid Margin="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center" FontSize="12" MinWidth="20" Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <Grid Grid.Column="1" x:Name="GridRoot" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Background="{TemplateBinding Background}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MaxHeight="18"/>
+                                            <RowDefinition Height="0.00001*"/>
+                                            <RowDefinition MaxHeight="18"/>
+                                        </Grid.RowDefinitions>
+                                        <RepeatButton x:Name="DecreaseRepeat" Command="ScrollBar.LineDownCommand" Focusable="False">
+                                            <Grid>
+                                                <Path x:Name="DecreaseArrow" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" Data="M 0 4 L 8 4 L 4 0 Z"/>
+                                            </Grid>
+                                        </RepeatButton>
+                                        <RepeatButton Grid.Row="2" x:Name="IncreaseRepeat" Command="ScrollBar.LineUpCommand" Focusable="False">
+                                            <Grid>
+                                                <Path x:Name="IncreaseArrow" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                            </Grid>
+                                        </RepeatButton>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <local:MainViewModel x:Key="mvm"/>
             <local:SongViewModel x:Key="svm"/>
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
             <l:LanguageValueConverter x:Key="LangConverter" />
             <l:FlagsEnumValueConverter x:Key="FlagsConverter"/>
             <l:FlagsEnumToVisibilityConverter x:Key="EnumToVisConverter"/>
-
         </ResourceDictionary>
     </Window.Resources>
     <Border Padding="5">
@@ -40,30 +78,58 @@
                         <DockPanel HorizontalAlignment="Stretch"/>
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
-                <MenuItem Header="_Datei" >
+                <MenuItem Header="_Datei">
                     <MenuItem Command="ApplicationCommands.Open" >
                         <MenuItem.Icon>
                             <Image Source="Images/OpenFolder.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="ApplicationCommands.Save" >
+                    <MenuItem Command="ApplicationCommands.Save" CommandParameter="LoadedSong">
                         <MenuItem.Icon>
                             <Image Source="Images\SaveFileDialog.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Command="ApplicationCommands.SaveAs">
+                    <MenuItem Command="ApplicationCommands.SaveAs" CommandParameter="LoadedSong">
                         <MenuItem.Icon>
                             <Image Source="Images\SaveAs.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                </MenuItem>
-                <MenuItem Header="_Bearbeiten">
-                </MenuItem>
-                <MenuItem Header="_Einstellungen">
-                    <MenuItem Header="_Einstellungen"/>
                     <Separator/>
-                    <MenuItem Header="I_ncrease Font Size"/>
-                    <MenuItem Header="_Decrease Font Size"/>
+                    <MenuItem Header="Beenden" Command="ApplicationCommands.Close">
+                        <MenuItem.Icon>
+                            <Image Source="Images\Close_16x.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Einstellungen">
+                    <MenuItem.DataContext>
+                        <local:MainViewModel/>
+                    </MenuItem.DataContext>
+                    <MenuItem Header="Standardverzeichnis Datei Laden">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Folder_16x.png"/>
+                        </MenuItem.Icon>
+                        <a:FolderPicker FolderPath="{Binding DefaultPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="310"/>
+                    </MenuItem>
+                    <MenuItem Header="Standardverzeichnis bearbeitede Datei speichen">
+                        <MenuItem.Icon>
+                            <Image Source="Images/Save_16x.png"/>
+                        </MenuItem.Icon>
+                        <a:FolderPicker FolderPath="{Binding SaveEdidedPath, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="310"/>
+                    </MenuItem>
+                    <MenuItem Header="Standardanzahl Verszeilen für Beamer">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Rows_16x.png"/>
+                    </MenuItem.Icon>
+                        <Grid x:Name="LayoutRoot">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollBar x:Name="scrollBar" HorizontalAlignment="Left" Style="{DynamicResource MySimpleScrollBar}" VerticalAlignment="Top" Value="{Binding MaxSonglines, UpdateSourceTrigger=PropertyChanged}" Maximum="10" Margin="10" SmallChange="1"/>
+                    </Grid>
+                    </MenuItem>
+
                 </MenuItem>
                 <MenuItem Header="_Hilfe" HorizontalAlignment="Right" >
                     <MenuItem Header="_Hilfe"/>
@@ -73,7 +139,7 @@
             <TextBox x:Name="DateiText" DataContext="{StaticResource mvm}" Grid.Row="2" TextWrapping="Wrap" Text="{Binding FileText, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="TextChanged">
-                        <i:InvokeCommandAction Command="{Binding TextChangedCommand}" />
+                        <i:InvokeCommandAction Command="{Binding TextChangedCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <TextBox.ContextMenu>
@@ -94,7 +160,18 @@
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator/>
-                        <MenuItem Command="ApplicationCommands.Print">
+                        <MenuItem Command="ApplicationCommands.Undo">
+                            <MenuItem.Icon>
+                                <Image Source="Images/Undo_16x.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="ApplicationCommands.Redo">
+                            <MenuItem.Icon>
+                                <Image Source="Images/Redo_16x.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Command="ApplicationCommands.Print" CommandParameter="LoadedSong">
                             <MenuItem.Icon>
                                 <Image Source="Images/PrintDialog.png" />
                             </MenuItem.Icon>
@@ -104,7 +181,28 @@
             </TextBox>
             <TabControl Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
                 <TabItem Header="Song">
-                    <TextBox x:Name="TBSong" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=EditText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
+                    <TextBox x:Name="TBSong" DataContext="{StaticResource svm}" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=EditText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <TextBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Command="ApplicationCommands.Copy">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/Copy_6524.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Command="ApplicationCommands.SaveAs" CommandParameter="EditedSong">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images\SaveAs.png"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Command="ApplicationCommands.Print" CommandParameter="EditedSong">
+                                    <MenuItem.Icon>
+                                        <Image Source="Images/PrintDialog.png" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </TextBox.ContextMenu>
+                    </TextBox>
                 </TabItem>
                 <TabItem Header="Folien">
                     <TextBox x:Name="TBFolien" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Source={StaticResource svm}, Path=PageText}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"/>
@@ -117,12 +215,13 @@
                         <Run Text="{Binding Source={StaticResource svm}, Path=OrigFileName}"/>
                 </TextBlock>
             </StackPanel>
-             <StackPanel DataContext="{StaticResource svm}" Name="SongOptions" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Orientation="Horizontal" Visibility="{Binding IsNotEmpty, Converter={StaticResource BoolToVis}}" >
+            <StackPanel DataContext="{StaticResource svm}" Name="SongOptions" Grid.Column="2" HorizontalAlignment="Left" Grid.Row="3" Orientation="Horizontal" Visibility="{Binding IsNotEmpty, Converter={StaticResource BoolToVis}}" >
                 <TextBlock VerticalAlignment="Center">
                     <Run Text="Zeilen: "/>
                 </TextBlock>
-                <ComboBox DataContext="{StaticResource mvm}" Width="40" Name="ZeilenzahlMax" IsReadOnly="False" ItemsSource="{Binding Source={StaticResource svm}, Path=NumbersPageLines, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Source={StaticResource svm} , Path=SelectedNumberPagelines, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0">
-                        <i:Interaction.Triggers>
+
+                <ComboBox Width="40" IsReadOnly="False" ItemsSource="{Binding Source={StaticResource svm}, Path=NumbersPageLines, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Source={StaticResource svm} , Path=SelectedNumberPagelines, UpdateSourceTrigger=PropertyChanged}">
+                    <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                         </i:EventTrigger>
@@ -131,24 +230,43 @@
                 <TextBlock VerticalAlignment="Center" Visibility="{Binding Path=LangVisible, Converter={StaticResource EnumToVisConverter}, ConverterParameter={x:Static l:Language.Lang0}}">
                         <Run Text="Sprachen:"/>
                 </TextBlock>
-                 
+
+
                 <CheckBox Content="1" VerticalAlignment="Center" Visibility="{Binding Path=LangVisible, Converter={StaticResource EnumToVisConverter}, ConverterParameter={x:Static l:Language.Lang0}}"
-                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang0}}" />
-                 
+                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang0}}" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding LangChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
+
                 <CheckBox Content="2" VerticalAlignment="Center" Visibility="{Binding Path=LangVisible, Converter={StaticResource EnumToVisConverter}, ConverterParameter={x:Static l:Language.Lang1}}"
-                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang1}}"/>
+                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang1}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding LangChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
 
                 <CheckBox Content="3" VerticalAlignment="Center" Visibility="{Binding Path=LangVisible, Converter={StaticResource EnumToVisConverter}, ConverterParameter={x:Static l:Language.Lang2}}"
-                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang2}}"/>
+                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang2}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding LangChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
 
                 <CheckBox Content="4" VerticalAlignment="Center" Visibility="{Binding Path=LangVisible, Converter={StaticResource EnumToVisConverter}, ConverterParameter={x:Static l:Language.Lang3}}"
-                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang3}}"/>
-                 
-                <TextBlock VerticalAlignment="Center">
-                        <Run Text="      "/>
-                        <Run Text="{Binding LangProp}"/>
-                        <Run Text="{Binding SelectedNumberPagelines}"/>
-                </TextBlock>
+                  IsChecked="{Binding Path=LangProp, Converter={StaticResource FlagsConverter}, ConverterParameter={x:Static l:Language.Lang3}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction  Command="{Binding LangChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CheckBox>
             </StackPanel>
         </Grid>
     </Border>

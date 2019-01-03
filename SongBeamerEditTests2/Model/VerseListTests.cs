@@ -17,10 +17,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
         [TestMethod]
         public void NurEinVersOhneVerskennzeichnung()
@@ -31,10 +31,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
         [TestMethod]
         public void NurEinChorusVerskennzeichnung()
@@ -45,10 +45,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
         [TestMethod]
         public void NurEinVersMitVerskennzeichnungZweiSprachen()
@@ -59,9 +59,9 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            testVMSongbeamerFormat.GenerateSelectedVerseList(Language.Lang0 | Language.Lang1);
+            testVMSongbeamerFormat.ArrangeLangVerseList(Language.Lang0 | Language.Lang1);
             string test = testVMSongbeamerFormat.SelectedVerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
             Assert.IsTrue(testVMSongbeamerFormat.SelectedVerseList.ToString() == ErgebnisTestsong);
         }
@@ -74,10 +74,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
         [TestMethod]
         public void MitVersenUndRefrain()
@@ -88,10 +88,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
         [TestMethod]
         public void MitVersenUndRefrains()
@@ -102,10 +102,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
         [TestMethod]
         public void RefrainVersNrMehrmals()
@@ -116,10 +116,10 @@ namespace SongBeamerEditUnitTests
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", Testsong);
             Song testVMSongbeamerFormat = new Song(Testsong);
-            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.VerseList.ToString());
+            string test = testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", testVMSongbeamerFormat.Vorspann, testVMSongbeamerFormat.InitalVerseList.ToString());
             //Assert
-            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.VerseList.ToString() == ErgebnisTestsong);
+            Assert.IsTrue(testVMSongbeamerFormat.Vorspann + testVMSongbeamerFormat.InitalVerseList.ToString() == ErgebnisTestsong);
         }
     }
 }

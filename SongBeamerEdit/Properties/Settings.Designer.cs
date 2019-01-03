@@ -46,5 +46,29 @@ namespace SongBeamerEdit.Properties {
                 this["LoadLastPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int MaxDisplaySonglines {
+            get {
+                return ((int)(this["MaxDisplaySonglines"]));
+            }
+            set {
+                this["MaxDisplaySonglines"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Z:\\NORA\\SongBeamer\\VMVersion")]
+        public string SaveEditedSongPath {
+            get {
+                return ((string)(this["SaveEditedSongPath"]));
+            }
+            set {
+                this["SaveEditedSongPath"] = value;
+            }
+        }
     }
 }

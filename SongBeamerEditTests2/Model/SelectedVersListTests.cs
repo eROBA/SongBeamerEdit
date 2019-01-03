@@ -17,10 +17,10 @@ namespace SongBeamerEditUnitTests.Model
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", TestsongPattern);
             Song Testsong = new Song(TestsongPattern);
-            Testsong.SongAnalyse(TestsongPattern);
-            Testsong.GenerateSelectedVerseList(Language.Lang0 | Language.Lang1);
-            string Test = Testsong.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", Testsong.Vorspann, Testsong.VerseList.ToString());
+            //Testsong.SongAnalyse(TestsongPattern);
+            Testsong.ArrangeLangVerseList(Language.Lang0 | Language.Lang1);
+            string Test = Testsong.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", Testsong.Vorspann, Testsong.InitalVerseList.ToString());
             //Assert
             Assert.IsTrue(Test == "---\r\nVers 1\r\nVers1 Zeile1 Sprache1\r\nVers1 Zeile2 Sprache2\r\nVers1 Zeile3 Sprache1\r\nVers1 Zeile4 Sprache2\r\n---\r\nVers 2\r\nVers2 Zeile1 Sprache1\r\nVers2 Zeile2 Sprache2\r\nVers2 Zeile3 Sprache1\r\nVers2 Zeile4 Sprache2\r\n---\r\nRefrain 1\r\nRefrain1 Zeile1 Sprache1\r\nRefrain1 Zeile2 Sprache2\r\n---\r\nVers 3\r\nVers3 Zeile1 Sprache1\r\nVers3 Zeile2 Sprache2\r\nVers3 Zeile3 Sprache1\r\nVers3 Zeile4 Sprache2\r\n---\r\nVers 4\r\nVers4 Zeile1 Sprache1\r\nVers4 Zeile2 Sprache2\r\nVers4 Zeile3 Sprache1\r\nVers4 Zeile4 Sprache2\r\n---\r\nRefrain 2\r\nRefrain2 Zeile1 Sprache1\r\nRefrain2 Zeile2 Sprache2\r\n");
         }
@@ -32,10 +32,10 @@ namespace SongBeamerEditUnitTests.Model
             //Act
             Debug.Print("******Der original Songtext\n{0}\n******Ende vom original Songtext\n", TestsongPattern);
             Song Testsong = new Song(TestsongPattern);
-            Testsong.SongAnalyse(TestsongPattern);
-            Testsong.GenerateSelectedVerseList(Language.Lang0 | Language.Lang1 | Language.Lang2 | Language.Lang3);
-            string Test = Testsong.VerseList.ToString();
-            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", Testsong.Vorspann, Testsong.VerseList.ToString());
+            //Testsong.SongAnalyse(TestsongPattern);
+            Testsong.ArrangeLangVerseList(Language.Lang0 | Language.Lang1 | Language.Lang2 | Language.Lang3);
+            string Test = Testsong.InitalVerseList.ToString();
+            Debug.Print("******Textausgabe aus Objekten:\n{0}{1}******Ende vom objekterzeugten Songtext\n", Testsong.Vorspann, Testsong.InitalVerseList.ToString());
             //Assert
             Assert.IsTrue(Test == "---\r\nVers 1\r\nVers1 Zeile1 Sprache1\r\nVers1 Zeile2 Sprache2\r\nVers1 Zeile3 Sprache1\r\nVers1 Zeile4 Sprache2\r\n---\r\nVers 2\r\nVers2 Zeile1 Sprache1\r\nVers2 Zeile2 Sprache2\r\nVers2 Zeile3 Sprache1\r\nVers2 Zeile4 Sprache2\r\n---\r\nRefrain 1\r\nRefrain1 Zeile1 Sprache1\r\nRefrain1 Zeile2 Sprache2\r\n---\r\nVers 3\r\nVers3 Zeile1 Sprache1\r\nVers3 Zeile2 Sprache2\r\nVers3 Zeile3 Sprache1\r\nVers3 Zeile4 Sprache2\r\n---\r\nVers 4\r\nVers4 Zeile1 Sprache1\r\nVers4 Zeile2 Sprache2\r\nVers4 Zeile3 Sprache1\r\nVers4 Zeile4 Sprache2\r\n---\r\nRefrain 2\r\nRefrain2 Zeile1 Sprache1\r\nRefrain2 Zeile2 Sprache2\r\n");
         }
@@ -48,9 +48,9 @@ namespace SongBeamerEditUnitTests.Model
             Song TestsongLang0 = new Song(TestsongPattern);
             Song TestsongLang1 = new Song(TestsongPattern);
             Song TestsongLang0And1 = new Song(TestsongPattern);
-            TestsongLang0.GenerateSelectedVerseList(Language.Lang0);
-            TestsongLang1.GenerateSelectedVerseList(Language.Lang1);
-            TestsongLang0And1.GenerateSelectedVerseList(Language.Lang0 | Language.Lang1);
+            TestsongLang0.ArrangeLangVerseList(Language.Lang0);
+            TestsongLang1.ArrangeLangVerseList(Language.Lang1);
+            TestsongLang0And1.ArrangeLangVerseList(Language.Lang0 | Language.Lang1);
             Debug.Print("******Die erste Sprache:\r\n{0}", TestsongLang0.SelectedVerseList);
             Debug.Print("******Die zweite Sprache:\r\n{0}", TestsongLang1.SelectedVerseList);
             Debug.Print("******Beide Sprachen:\r\n{0}", TestsongLang0And1.SelectedVerseList);
@@ -70,12 +70,12 @@ namespace SongBeamerEditUnitTests.Model
             string TestsongPattern = TestsongDummy.GenerateTestSong(3, 6, 3, 6);    //Verse|Verszeilen|Sprachen|Max Zeilenzahl
             //Act
             Song Testsong = new Song(TestsongPattern);
-            Testsong.SongAnalyse(TestsongPattern);
-            Testsong.GenerateSelectedVerseList(Language.Lang0 | Language.Lang1 | Language.Lang2);
+            //Testsong.SongAnalyse(TestsongPattern);
+            Testsong.ArrangeLangVerseList(Language.Lang0 | Language.Lang1 | Language.Lang2);
             //Assert
             string Test = Testsong.Vorspann + Testsong.SelectedVerseList.ToString();
-            string Ergebnis = TestsongDummy.GenerateTestSong(3, 6, 3, 3);
-            Debug.Write("Der Text der durch Testcode erstellt wurde \r\n" + TestsongDummy.GenerateTestSong(3, 6, 3, 3));
+            string Ergebnis = TestsongDummy.GenerateTestSong(3, 6, 3, 6);
+            Debug.Write("Der Text der durch Testcode erstellt wurde \r\n" + TestsongDummy.GenerateTestSong(3, 6, 3, 6));
             Debug.Write("Der Text der durch SongBeamerEdit erzeugt wurde \r\n" + Test);
             Assert.IsTrue(Test == Ergebnis);
         }

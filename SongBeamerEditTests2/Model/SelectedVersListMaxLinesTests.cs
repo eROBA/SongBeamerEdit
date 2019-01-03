@@ -16,8 +16,8 @@ namespace SongBeamerEdit.Model
             int maxZeilen = 2;
             string TestsongPattern = TestsongDummy.GenerateTestSong(3, 6, 1, maxZeilen);    //Verse|Verszeilen|Sprachen|Max Zeilenzahl
             Song Testsong = new Song(TestsongPattern);
-            Testsong.GenerateSelectedVerseList(Language.Lang0);
-            Testsong.GenerateMaxLineVersList(maxZeilen);
+            Testsong.ArrangeLangVerseList(Language.Lang0);
+            Testsong.ArrangeMaxLineAndLangVersList(maxZeilen);
             string test = Testsong.SelectedVerseListMaxLines.ToString();
             Debug.Print(Testsong.Vorspann + test);
             //Assert
@@ -31,8 +31,8 @@ namespace SongBeamerEdit.Model
             int maxZeilen = 2;
             string TestsongPattern = TestsongDummy.GenerateTestSong(2, 5, 1, maxZeilen);    //Verse|Verszeilen|Sprachen|Max Zeilenzahl
             Song Testsong = new Song(TestsongPattern);
-            Testsong.GenerateSelectedVerseList(Language.Lang0);
-            Testsong.GenerateMaxLineVersList(maxZeilen);
+            Testsong.ArrangeLangVerseList(Language.Lang0);
+            Testsong.ArrangeMaxLineAndLangVersList(maxZeilen);
             string test = Testsong.SelectedVerseListMaxLines.ToString();
             Debug.Print(Testsong.Vorspann + test);
             //Assert
@@ -46,8 +46,8 @@ namespace SongBeamerEdit.Model
             int maxZeilen = 2;
             string TestsongPattern = TestsongDummy.GenerateTestSong(2, 3, 2, maxZeilen);    //Verse|Verszeilen|Sprachen|Max Zeilenzahl
             Song Testsong = new Song(TestsongPattern);
-            Testsong.GenerateSelectedVerseList(Language.Lang1);
-            Testsong.GenerateMaxLineVersList(maxZeilen);
+            Testsong.ArrangeLangVerseList(Language.Lang1);
+            Testsong.ArrangeMaxLineAndLangVersList(maxZeilen);
             string test = Testsong.SelectedVerseListMaxLines.ToString();
             Debug.Print(Testsong.Vorspann + test);
             //Assert
