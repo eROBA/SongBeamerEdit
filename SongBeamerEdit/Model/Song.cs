@@ -1,24 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using SongBeamerEdit.FlagsValueConverter;
 
 namespace SongBeamerEdit.Model
 {
+    /// <summary>
+    /// Klasse zur Verarbeitung von Text im Songbeamerformat
+    /// </summary>
     public class Song
     {
         #region Konstruktoren
         public Song() { }
-        public Song(string _myText)
+        public Song(string _mySongText)
         {
-            _myText = SongAnalyse(_myText);                         //Führt Erkennung und Bereinigung mit regulären Ausdrücken aus
-            ArrangeLangVerseList(BitMaskSelectedLang);              //Erstellt eine Versliste unter Berücksichtigung der vorhandene Sprachen
-            int lines = Math.Max(Properties.Settings.Default.MaxDisplaySonglines, AvailableLangCount);
-            ArrangeMaxLineAndLangVersList(lines);                   //Erstellt eine Versliste unter Berücksichtigung der vorhandene Sprachen und der gewünschten Anzahl anzuzeigerner Zeilen
+            SongAnalyse(_mySongText);                               //Führt Erkennung und Bereinigung mit regulären Ausdrücken aus
+            ArrangeLangVerseList(BitMaskSelectedLang);              //Erstellt eine Versliste unter Berücksichtigung der vorhandenen Sprachen
+            int displayLinesCount = Math.Max(Properties.Settings.Default.MaxDisplaySonglines, AvailableLangCount);  //Ermittelt Anzahl anzuzeigender Zeilen -> größter Wert aus default und Anzahl Sprachen
+            ArrangeMaxLineAndLangVersList(displayLinesCount);       //Erstellt eine Versliste unter Berücksichtigung aller vorhandenen Sprachen und der Anzahl anzuzeigender Zeilen
             Text = Vorspann + SelectedVerseListMaxLines.ToString(); //Setzt die Texteingenschaft
         }
         #endregion
+        /// <summary>
+        /// Erstellt den Songtext wenn an der Sprachauswahl etwas geändert wurde
+        /// </summary>
+        /// <param name="languageBitMask"></param>
         public string GetSongText(Language languageBitMask)
         {
             ArrangeLangVerseList(languageBitMask);
@@ -28,6 +34,10 @@ namespace SongBeamerEdit.Model
             return Text;
         }
 
+        /// <summary>
+        /// Erstellt den Songtext wenn an der Auswahl der darzustellenden Zeilenanzahl etwas geändert wurde
+        /// </summary>
+        /// <param name="maxDisplaylines"></param>
         public string GetSongText(int maxDisplaylines)
         {
             ArrangeMaxLineAndLangVersList(maxDisplaylines);
@@ -35,6 +45,10 @@ namespace SongBeamerEdit.Model
             return Text;
         }
 
+        /// <summary>
+        /// Initiale Texterkennung
+        /// </summary>
+        /// <param name="_myText"></param>
         private string SongAnalyse(string _myText)
         {
             Vorspann = Regex.Match(_myText, @"(#.*?\r\n)+", RegexOptions.Singleline).ToString();                        //Ermittelt den Vorspann
@@ -55,6 +69,10 @@ namespace SongBeamerEdit.Model
         }
 
         #region Methoden
+        /// <summary>
+        /// Erstellt eine Versliste unter Vorgabe der gewünschten Sprache(n)
+        /// </summary>
+        /// <param name="lang"></param>
         public void ArrangeLangVerseList(Language lang)
         {
             SelectedLangCount = FlagCount(lang);
@@ -67,6 +85,11 @@ namespace SongBeamerEdit.Model
                                         }).ToList();
         }
 
+        /// <summary>
+        /// Erstellt eine Versliste unter Vorgabe der max. anzuzeigenden Verzeilenanzahl.
+        /// Grundlage ist die Liste der gewählten Sprache(n)
+        /// </summary>
+        /// <param name="maxLines"></param>
         public void ArrangeMaxLineAndLangVersList(int maxLines)
         {
             SelectedVerseListMaxLines.Verses.Clear();
@@ -112,6 +135,9 @@ namespace SongBeamerEdit.Model
         #endregion
 
         #region Eigenschaften
+        /// <summary>
+        /// Bitmaske der ausgewählten Sprachen
+        /// </summary>
         public Language BitMaskSelectedLang { get; set; }
         /// <summary>
         /// Anzahl der ausgewählten Sprachen
@@ -125,9 +151,21 @@ namespace SongBeamerEdit.Model
         /// Konfigurationszeilen vom Songbeamer-Datei
         /// </summary>
         public string Vorspann { get; set; }
+        /// <summary>
+        /// Liste aller Verse aus dem Originaltext
+        /// </summary>
         public VerseCollection InitalVerseList { get; set; }
+        /// <summary>
+        /// Liste von Versen unter Berücksichtigung der gewählten Sprachen
+        /// </summary>
         public VerseCollection SelectedVerseList { get; set; } = new VerseCollection();
+        /// <summary>
+        /// Liste von Versen unter Berücksichtigung der gewählten Sprachen und der gewählten Anzahl darzustellender Zeilen
+        /// </summary>
         public VerseCollection SelectedVerseListMaxLines { get; set; } = new VerseCollection();
+        /// <summary>
+        /// Der für die View anzuzeigende Songtext
+        /// </summary>
         public string Text { get; set; }
         #endregion
     }

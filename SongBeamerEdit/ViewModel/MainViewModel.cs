@@ -53,14 +53,7 @@ namespace SongBeamerEdit.ViewModel
         #region Methoden der CommandBindings
         private void SaveCanExecute     (object sender, CanExecuteRoutedEventArgs e)
         {
-            if(SongViewModel.SVM.EditTextIsChanged == true)
-            {
-                e.CanExecute = true;
-            }
-            else
-            {
-                e.CanExecute = false;
-            } 
+            e.CanExecute = SongViewModel.SVM.EditTextIsChanged;
         }
         private void SaveExecuted       (object sender, ExecutedRoutedEventArgs e)
         {
@@ -68,7 +61,7 @@ namespace SongBeamerEdit.ViewModel
         }
         private void SaveAsCanExecute   (object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = SongViewModel.SVM.EditTextIsChanged ? true : false;
+            e.CanExecute = SongViewModel.SVM.EditTextIsChanged;
         }
         private void SaveAsExecuted     (object sender, ExecutedRoutedEventArgs e)
         {
@@ -89,7 +82,7 @@ namespace SongBeamerEdit.ViewModel
                 _loadedText = LoadSong(Properties.Settings.Default.LoadDefoldPath);
             }
             SongViewModel.SVM.EditTextIsChanged = false;    //Der Filetext wurde bisher nicht verändert
-            FileText = _loadedText;                  //Hält den geladenen oder geaänderten Songtext
+            FileText = _loadedText;                         //Hält den geladenen oder geaänderten Songtext
             SongViewModel.SVM.InitSong(_loadedText);
         }
         private void PrintCanExecute    (object sender, CanExecuteRoutedEventArgs e)

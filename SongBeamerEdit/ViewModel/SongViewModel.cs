@@ -46,7 +46,6 @@ namespace SongBeamerEdit.ViewModel
                                                                     //sowie eine Versliste mit allen verfügbaren Sprachen und der Standardanzahl der darzustellenden Zeilenzahl
             EditText = mySong.Text;                                 //Der bearbeitete Text wird an das Songfenster übergeben
             IsNotEmpty = true;                                      //Siganalisiert dass ein Text geladen wurde (wird für 
-            //-------------
             LangVisible = mySong.BitMaskSelectedLang;   //Die aus dem Text ermittelte Bitmaske der Sprachen -> Regelt wie viele Checkboxen angezeigt werden sollen
             LangProp    = mySong.BitMaskSelectedLang;   //Die aus dem Text ermittelte Bitmaske der Sprachen -> Regelt welche Checkboxen gecheckt sein sollen
             NumbersPageLines = PageLines(Properties.Settings.Default.MaxDisplaySonglines, mySong.SelectedLangCount, mySong.SelectedVerseListMaxLines.MaxVerseLinesCount);
@@ -80,6 +79,7 @@ namespace SongBeamerEdit.ViewModel
             }
             int number = numberLineList.LastOrDefault(num => num < Properties.Settings.Default.MaxDisplaySonglines);
             int index = numberLineList.IndexOf(number) + 1;  //Setzt die Auswahl auf den Standardwert der maximal gewünschten Zeilenanzahl bzw. dem darauf folgenden Wert.
+            if (index > numberLineList.Count-1) index = numberLineList.Count-1;
             SelectedNumberPagelines = numberLineList[index];
             return numberLineList;
         }

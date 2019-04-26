@@ -89,9 +89,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BatchProcessingModel\Doubles.cs" />
+    <Compile Include="BatchProcessingModel\SongFilenameDoubles.cs" />
+    <Compile Include="BatchProcessingViewModel\DuplicatesViewModel.cs" />
+    <Compile Include="BatchProcessingView\Duplicates.xaml.cs">
+      <DependentUpon>Duplicates.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\LineCollection.cs" />
     <Compile Include="Model\Song.cs" />
+    <Compile Include="BatchProcessingModel\SongFilename.cs" />
+    <Compile Include="Model\SongMethadata.cs" />
     <Compile Include="Model\VerseCollection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ValueConverter\EnumToVisibilityConverter.cs" />
@@ -101,6 +109,10 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SongViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Page Include="BatchProcessingView\Duplicates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
