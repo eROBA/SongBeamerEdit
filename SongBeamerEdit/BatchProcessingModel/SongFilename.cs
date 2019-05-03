@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.IO;
 
 namespace SongBeamerEdit.BatchProcessingModel
 {
@@ -53,6 +54,7 @@ namespace SongBeamerEdit.BatchProcessingModel
                 editFilename = altFn3.Groups[1].ToString();
             }
             Title = editFilename;
+            //File.ReadAllText(fileDialog.FileName, Encoding.Default);
         }
         /// <summary>
         /// Filename (z.B. 'til the day I die.sng)
