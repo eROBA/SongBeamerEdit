@@ -58,7 +58,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Duplicate\FileDuplicates.cs" />
+    <Compile Include="Duplicate\FileDoublesTests.cs" />
+    <Compile Include="Duplicate\MetadataDoublesTests.cs" />
     <Compile Include="Model\TestsongDummyCreator.cs" />
     <Compile Include="Model\SelectedVersListTests.cs" />
     <Compile Include="Model\SelectedVersListMaxLinesTests.cs" />

@@ -90,7 +90,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BatchProcessingModel\Doubles.cs" />
+    <Compile Include="BatchProcessingModel\Songbook.cs" />
     <Compile Include="BatchProcessingModel\SongFilenameDoubles.cs" />
+    <Compile Include="BatchProcessingModel\SongMethadata.cs" />
     <Compile Include="BatchProcessingViewModel\DuplicatesViewModel.cs" />
     <Compile Include="BatchProcessingView\Duplicates.xaml.cs">
       <DependentUpon>Duplicates.xaml</DependentUpon>
@@ -99,7 +101,7 @@
     <Compile Include="Model\LineCollection.cs" />
     <Compile Include="Model\Song.cs" />
     <Compile Include="BatchProcessingModel\SongFilename.cs" />
-    <Compile Include="Model\SongMethadata.cs" />
+    <Compile Include="Model\SongProperties.cs" />
     <Compile Include="Model\VerseCollection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ValueConverter\EnumToVisibilityConverter.cs" />
@@ -152,6 +154,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

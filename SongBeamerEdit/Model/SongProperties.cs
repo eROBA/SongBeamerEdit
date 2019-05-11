@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SongBeamerEdit.Model
 {
-    public class SongMethadata
+    public class SongProperties
     {
         #region Eigenschaften
         public string AddCopyrightInfo { get; set; }

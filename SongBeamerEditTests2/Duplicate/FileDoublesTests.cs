@@ -2,14 +2,15 @@
 using System.Diagnostics;
 using System.IO;
 using SongBeamerEdit.BatchProcessingModel;
+using System;
 
-namespace SongBeamerEditTests.Duplicate
+namespace SongBeamerEditTests.GetDoubles
 {
     [TestClass]
-    public class Duplicate
+    public class FileDoublesTests
     {
         [TestMethod]
-        public void GetFilenameInfos()
+        public void GetFilenameInfosTest()
         {
             string path = @"C:\Users\rolf\Documents\SongBeamer";
             var sngFiles = Directory.EnumerateFiles(path, "*.sng");
@@ -26,7 +27,7 @@ namespace SongBeamerEditTests.Duplicate
             }
         }
         [TestMethod]
-        public void GetDoubles()
+        public void GetFilenameDoublesTest()
         {
             string path = @"C:\Users\rolf\Documents\SongBeamer";
             var test = new Doubles(path);
@@ -52,6 +53,7 @@ namespace SongBeamerEditTests.Duplicate
                 Debug.WriteLine("");
             }
         }
+
     }
 
 }

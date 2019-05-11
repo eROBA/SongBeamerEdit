@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using System.IO;
+using System;
+using System.Collections.Generic;
 
 namespace SongBeamerEdit.BatchProcessingModel
 {
@@ -7,7 +8,7 @@ namespace SongBeamerEdit.BatchProcessingModel
     /// Ermittelt Informationen aus dem Filenamen einer Songbeamerdatei
     /// </summary>
     /// <param name="fullPath"></param>
-    public class SongFilename
+    public class SongFilename : IEquatable<SongFilename>
     {
         /// <summary>
         /// Analysiert den Filenamen
@@ -56,6 +57,9 @@ namespace SongBeamerEdit.BatchProcessingModel
             Title = editFilename;
             //File.ReadAllText(fileDialog.FileName, Encoding.Default);
         }
+        #region Methoden
+
+        #endregion
         /// <summary>
         /// Filename (z.B. 'til the day I die.sng)
         /// </summary>
@@ -105,5 +109,33 @@ namespace SongBeamerEdit.BatchProcessingModel
         /// Zähler über alle verarbeideten Songfiles
         /// </summary>
         public static int IDCounter { get; set; }
+
+        #region Methoden
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as SongFilename);
+        }
+
+        public bool Equals(SongFilename other)
+        {
+            return other != null &&
+                    ID != other.ID && (
+                    Title == other.Title |
+                    Title == other.TitleAlternativ |
+                    Title == other.TitleSecondLang |
+                    Title == other.TitelAlternativSecondLang);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 2145538518;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Title);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TitleAlternativ);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TitleSecondLang);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TitelAlternativSecondLang);
+            hashCode = hashCode * -1521134295 + ID.GetHashCode();
+            return hashCode;
+        }
+        #endregion
     }
 }
