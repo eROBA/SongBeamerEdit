@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 using SongBeamerEdit.BatchProcessingModel;
 using System.Diagnostics;
+using System.IO;
 
 namespace SongBeamerEditTests.GetDoubles
 {
@@ -11,7 +11,8 @@ namespace SongBeamerEditTests.GetDoubles
         [TestMethod]
         public void GetMethaDataInfosTest()
         {
-            string path = @"C:\Users\rolf\Documents\SongBeamer";
+            //string path = @"C:\Users\rolf\Documents\SongBeamer";
+            string path = @"Z:\NORA\SongBeamer";
             var sngFiles = Directory.EnumerateFiles(path, "*.sng");
             foreach (var song in sngFiles)
             {
@@ -33,10 +34,11 @@ namespace SongBeamerEditTests.GetDoubles
             foreach (string songbookdummy in songbookdumies)
             {
                 Songbook test = new Songbook(songbookdummy);
-                Debug.WriteLineIf(!string.IsNullOrEmpty(test.STitel),       "   #STitle          : " + test.STitel);
-                Debug.WriteLineIf(!string.IsNullOrEmpty(test.SShortTitel),  "   #SShortTitle     : " + test.SShortTitel);
-                Debug.WriteLineIf(!string.IsNullOrEmpty(test.SBookNr),      "   #SNR             : " + test.SBookNr);
-                Debug.WriteLineIf(!string.IsNullOrEmpty(test.SSongNr),      "   #SSongNr         : " + test.SSongNr);
+                Debug.WriteLineIf(!string.IsNullOrEmpty(test.STitel),       "#STitle          : " + test.STitel);
+                Debug.WriteLineIf(!string.IsNullOrEmpty(test.SShortTitel),  "#SShortTitle     : " + test.SShortTitel);
+                Debug.WriteLineIf(!string.IsNullOrEmpty(test.SBookNr),      "#SNR             : " + test.SBookNr);
+                Debug.WriteLineIf(!string.IsNullOrEmpty(test.SSongNr),      "#SSongNr         : " + test.SSongNr);
+                Debug.WriteLineIf(!string.IsNullOrEmpty(test.STitel), string.Empty);
             }
             //Act
 
@@ -47,9 +49,20 @@ namespace SongBeamerEditTests.GetDoubles
         public void RomanToIntTest()
         {
             //Arrange
-            Songbook test = new Songbook("Feiert Jesus XIX / 88");
+            string[] songtitles = { "FJ1 88", "DbH5 198", "LuH 6", "SONG 198", "Feiert Jesus XIX / 88", "Du bist Herr 5 / 198", "Lehre uns Herr / 6", "Song / 198", "Ich will dir danken / 074", "Freude", "Songs Lothar Kosse / 001", "Ich will dir danken / 001", "In Love with Jesus I / 002", "Wiedenester / 002", "Du bist Herr Kids I / 003", "RR Liederbuch / 004" };
+            string[] titlesShort ={ "FJ1 88", "DbH5 198", "LuH 6", "SONG 198", "", "", "", "", "", "", "", "" };
+
+            string[] romeToInt = new string[songtitles.Length];
             //Act
-            Debug.WriteLine(string.Format("Römische Zahl {0} ist dezimal {1}",test.SBookNr ,test.SBookNr ));
+            foreach (var title in songtitles)
+            {
+                Songbook test = new Songbook(title);
+                Debug.WriteLine(string.Format("#Songbook            : {0}", title));
+                Debug.WriteLine(string.Format("#Songbook Titel      : {0}", test.STitel));
+                Debug.WriteLine(string.Format("#Songbook Kurzform   : {0}", test.SShortTitel));
+                Debug.WriteLine(string.Format("#Songbook Nummer     : {0}", test.SBookNr));
+                Debug.WriteLine(string.Format("#Songbook Songnummer : {0}\n", test.SSongNr));  
+            }
             //Assert
         }
 
