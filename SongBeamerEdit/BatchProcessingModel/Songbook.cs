@@ -10,7 +10,7 @@ namespace SongBeamerEdit.BatchProcessingModel
         public Songbook(string songbook)
         {
             var dict = new Dictionary<string, string> { { "FJ", "Feiert Jesus" }, { "DbH", "Du bist Herr" }, { "LuH", "Lehre uns Herr " }};
-            //Aus Kurzformangaben Langform erstellen
+            //Auswertung Kurzform
             foreach (var titel in dict)
             {
                 string regex = "(" + titel.Key + @")([0-9]*)\s*(.*?)$";
@@ -18,26 +18,27 @@ namespace SongBeamerEdit.BatchProcessingModel
                 if (rgx1.IsMatch(songbook))
                 {
                     Match match = rgx1.Match(songbook);
-                    STitel = titel.Value; //+ " " + match.Groups[2].Value;
-                    SShortTitel = match.Groups[1].Value;
-                    SBookNr = match.Groups[2].Value.TrimStart();
-                    SSongNr = match.Groups[3].Value;
+                    SbTitle = titel.Value;
+                    SbShortTitel = match.Groups[1].Value;
+                    SbBookNr = match.Groups[2].Value.TrimStart();
+                    SbSongNr = match.Groups[3].Value;
+                    break;
                 }
             }
-            if (string.IsNullOrEmpty(STitel))
+            if (string.IsNullOrEmpty(SbTitle))
             {
                 //Auswertung Langform mit römischen Zahlen bei Songbuchnummer
                 var rgx2 = new Regex(@"([A-ZÄÖÜa-zßäüö ]*)([^IVX][IVX][IVX]*)\s*/\s*([0-9]*)", RegexOptions.Multiline);
                 if (rgx2.IsMatch(songbook))
                 {
                     Match match = rgx2.Match(songbook);
-                    STitel = match.Groups[1].Value;
+                    SbTitle = match.Groups[1].Value;
                     if (dict.ContainsValue(match.Groups[1].Value))
                     {
-                        SShortTitel = dict.Single(kvp => kvp.Value == match.Groups[1].Value).Key;
+                        SbShortTitel = dict.First(kvp => kvp.Value == match.Groups[1].Value).Key;
                     }
-                    SBookNr = RomanToInt(match.Groups[2].Value.TrimStart());
-                    SSongNr = match.Groups[3].Value;
+                    SbBookNr = RomanToInt(match.Groups[2].Value.TrimStart());
+                    SbSongNr = match.Groups[3].Value;
                 }
                 else
                 {
@@ -46,17 +47,17 @@ namespace SongBeamerEdit.BatchProcessingModel
                     if (rgx3.IsMatch(songbook))
                     {
                         Match match = rgx3.Match(songbook);
-                        STitel = match.Groups[1].Value;
+                        SbTitle = match.Groups[1].Value;
                         if (dict.ContainsValue(match.Groups[1].Value))
                         {
-                            SShortTitel = dict.Single(kvp => kvp.Value == match.Groups[1].Value).Key;
+                            SbShortTitel = dict.Single(kvp => kvp.Value == match.Groups[1].Value).Key;
                         }
                         int i;
                         if (int.TryParse(match.Groups[2].Value, out i))
                         {
-                            SBookNr = match.Groups[2].Value.Trim();
+                            SbBookNr = match.Groups[2].Value.Trim();
                         }
-                        SSongNr = match.Groups[3].Value;
+                        SbSongNr = match.Groups[3].Value;
                     }
                     else
                     {
@@ -65,12 +66,16 @@ namespace SongBeamerEdit.BatchProcessingModel
                         if (rgx4.IsMatch(songbook))
                         {
                             Match match = rgx4.Match(songbook);
-                            STitel = match.Groups[1].Value;
+                            SbTitle = match.Groups[1].Value.Trim();
                             int i;
                             if (int.TryParse(match.Groups[2].Value, out i))
                             {
-                                SSongNr = match.Groups[2].Value.Trim();
+                                SbSongNr = match.Groups[2].Value.Trim();
                             }
+                        }
+                        else
+                        {
+                            SbTitle = songbook;
                         }
                     }
                 }
@@ -113,10 +118,10 @@ namespace SongBeamerEdit.BatchProcessingModel
         }
         #endregion
         #region Eigenschaften
-        public string STitel        { get; set; }
-        public string SShortTitel   { get; set; }
-        public string SBookNr       { get; set; }
-        public string SSongNr       { get; set; }
+        public string SbTitle        { get; set; }
+        public string SbShortTitel   { get; set; }
+        public string SbBookNr       { get; set; }
+        public string SbSongNr       { get; set; }
         #endregion
     }
 }
